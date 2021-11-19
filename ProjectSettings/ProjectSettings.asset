@@ -606,7 +606,8 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: POSEIDON;JUPITER;GRIFFIN;TEXTURE_GRAPH;GRIFFIN_2021;TG_SEARCHER
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
