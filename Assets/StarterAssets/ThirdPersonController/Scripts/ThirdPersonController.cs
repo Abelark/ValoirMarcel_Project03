@@ -61,7 +61,9 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
         [Tooltip("The aim camera mode pushing right mouse switches to")]
-        [SerializeField] GameObject _aimCamera;
+        [SerializeField] GameObject _aimCamera = null;
+        [Tooltip("The virtual camera the follows the projectile")]
+        [SerializeField] GameObject _projectileCamera = null;
 
 
         // cinemachine
@@ -96,6 +98,8 @@ namespace StarterAssets
 
         private bool _hasAnimator;
 
+        public bool projectileMode = false;
+
         private void Awake()
         {
             // get a reference to our main camera
@@ -123,16 +127,26 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
-
-            JumpAndGravity();
             GroundedCheck();
-            Move();
-            Aim();
+            //JumpAndGravity();
+
+            if (!projectileMode)
+            {
+                JumpAndGravity();
+                //GroundedCheck();    
+                Move();
+                Aim();
+            }
+            else if (projectileMode)
+            {
+
+            }
         }
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (!projectileMode)
+                CameraRotation();
         }
 
         private void AssignAnimationIDs()
@@ -181,9 +195,15 @@ namespace StarterAssets
             if (_input.aim)
             {
                 _aimCamera.SetActive(true);
+                if (_input.fire)
+                {
+                    //TODO Fire boolean only allows one projectile at a time. Use State machine to switch between character and projectile control modees?
+                    projectileMode = true;
+                }
             }
-            else
+            else if (!_input.aim)
                 _aimCamera.SetActive(false);
+
         }
 
         private void Move()
