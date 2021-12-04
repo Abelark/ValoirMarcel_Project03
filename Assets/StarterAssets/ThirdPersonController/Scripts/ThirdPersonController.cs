@@ -96,6 +96,8 @@ namespace StarterAssets
 
         private bool _hasAnimator;
 
+        public bool projectileMode = false;
+
         private void Awake()
         {
             // get a reference to our main camera
@@ -123,11 +125,15 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
-
-            JumpAndGravity();
             GroundedCheck();
-            Move();
-            Aim();
+
+            if (!projectileMode)
+            {
+                JumpAndGravity();
+                //GroundedCheck();
+                Move();
+                Aim();
+            }
         }
 
         private void LateUpdate()
@@ -181,6 +187,7 @@ namespace StarterAssets
             if (_input.aim)
             {
                 _aimCamera.SetActive(true);
+                if (_input.fire)
             }
             else
                 _aimCamera.SetActive(false);
